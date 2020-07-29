@@ -17,7 +17,8 @@ import util.GraphLoader;
  * The edges of the graph are not labeled.
  * Representation of edges is left abstract.
  * 
- * @author UCSD MOOC development team and YOU
+ * @author Hamadi McIntosh
+ * @author UCSD MOOC development team
  * 
  */
 
@@ -121,8 +122,16 @@ public abstract class Graph {
 	 * @return The degree sequence of this graph.
 	 */
 	public List<Integer> degreeSequence() {
-		// XXX: Implement in part 1 of week 2
-		return null;
+		List<Integer> seq = new ArrayList<Integer>();
+		for (int i=0; i<numVertices; i++) {
+			int outDegree = getNeighbors(i).size();
+			int inDegree = getInNeighbors(i).size();
+			int degree = outDegree + inDegree;
+			seq.add(degree);
+		}
+		Collections.sort(seq);
+		Collections.reverse(seq);
+		return seq;
 	}
 	
 	/**
@@ -130,7 +139,6 @@ public abstract class Graph {
 	 * @param v The starting vertex
 	 * @return A list of the vertices that can be reached in exactly two hops (by 
 	 * following two edges) from vertex v.
-	 * XXX: Implement in part 2 of week 2 for each subclass of Graph
 	 */
 	public abstract List<Integer> getDistance2(int v); 
 
@@ -229,7 +237,7 @@ public abstract class Graph {
 	
 	/** Main method provided with some basic tests.  */
 	public static void main (String[] args) {
-		GraphLoader.createIntersectionsFile("data/maps/ucsd.map", "data/intersections/ucsd.intersections");
+		// GraphLoader.createIntersectionsFile("data/maps/ucsd.map", "data/intersections/ucsd.intersections");
 		
 
 		// For testing of Part 1 functionality
