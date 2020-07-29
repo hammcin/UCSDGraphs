@@ -271,7 +271,22 @@ public abstract class Graph {
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
 
-
+		System.out.println("****");
+		System.out.println("Adjacency List:");
+		for (int i=0; i<graphFromFile.getNumVertices(); i++) {
+			List<Integer> neighbors2 = graphFromFile.getDistance2(i);
+			System.out.println("Vertex " + i + ": " + neighbors2);
+		}
+		System.out.println("****");
+		
+		System.out.println("\n****");
+		GraphAdjMatrix matrixGraph = new GraphAdjMatrix();
+		GraphLoader.loadRoadMap("data/testdata/simpletest.map", matrixGraph);
+		for (int i=0; i<matrixGraph.getNumVertices(); i++) {
+			List<Integer> neighbors2 = matrixGraph.getDistance2(i);
+			System.out.println("Vertex " + i + ": " + neighbors2);
+		}
+		System.out.println("****");
 		
 	}
 }

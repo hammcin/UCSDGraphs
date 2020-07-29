@@ -13,6 +13,7 @@ import java.util.Set;
  * The edges of the graph are not labeled.
  * Representation of edges via an adjacency matrix.
  * 
+ * @author Hamadi McIntosh
  * @author UCSD MOOC development team and YOU
  *
  */
@@ -104,8 +105,21 @@ public class GraphAdjMatrix extends Graph {
 	 * @return List<Integer> a list of indices of vertices.  
 	 */	
 	public List<Integer> getDistance2(int v) {
-		// XXX Implement this method in week 2
-		return null;
+		List<Integer> neighbors2 = new ArrayList<Integer>();
+		int[][] mat2Hop = new int[getNumVertices()][getNumVertices()];
+		for (int i=0; i<getNumVertices(); i++) {
+			for (int j=0; j<getNumVertices(); j++) {
+				for (int k=0; k<getNumVertices(); k++) {
+					mat2Hop[i][j] += adjMatrix[i][k]*adjMatrix[k][j];
+				}
+			}
+		}
+		for (int i=0; i<getNumVertices(); i++) {
+			for (int j=0; j<mat2Hop[v][i]; j++) {
+				neighbors2.add(i);
+			}
+		}
+		return neighbors2;
 	}
 	
 	/**
@@ -123,6 +137,23 @@ public class GraphAdjMatrix extends Graph {
 			}
 		}
 		return s;
+	}
+	
+	public static void main(String[] args) {
+		GraphAdjMatrix test = new GraphAdjMatrix();
+		test.addVertex();
+		test.addVertex();
+		test.addVertex();
+		test.addEdge(0, 1);
+		test.addEdge(1, 0);
+		test.addEdge(1, 2);
+		test.addEdge(2, 1);
+		
+		for (int i=0; i<test.getNumVertices(); i++) {
+			List<Integer> neighbors2 = test.getDistance2(i);
+			System.out.println("Vertex " + i + ": " + neighbors2);
+		}
+		
 	}
 
 }
