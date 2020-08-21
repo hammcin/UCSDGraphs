@@ -1,5 +1,6 @@
 /**
- * @author UCSD MOOC development team and YOU
+ * @author Hamadi McIntosh
+ * @author UCSD MOOC development team
  * 
  * A class which reprsents a graph of geographic locations
  * Nodes in the graph are intersections between 
@@ -8,7 +9,10 @@
 package roadgraph;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -16,22 +20,23 @@ import geography.GeographicPoint;
 import util.GraphLoader;
 
 /**
- * @author UCSD MOOC development team and YOU
+ * @author Hamadi McIntosh
+ * @author UCSD MOOC development team
  * 
  * A class which represents a graph of geographic locations
  * Nodes in the graph are intersections between 
  *
  */
 public class MapGraph {
-	//TODO: Add your member variables here in WEEK 3
 	
+	private Map<GeographicPoint, ArrayList<MapGraphEdge>> adjListsMap;
 	
 	/** 
 	 * Create a new empty MapGraph 
 	 */
 	public MapGraph()
 	{
-		// TODO: Implement in this constructor in WEEK 3
+		adjListsMap = new HashMap<GeographicPoint, ArrayList<MapGraphEdge>>();
 	}
 	
 	/**
@@ -75,8 +80,19 @@ public class MapGraph {
 	 */
 	public boolean addVertex(GeographicPoint location)
 	{
-		// TODO: Implement this method in WEEK 3
-		return false;
+		// If location is null, do not change the graph
+		if (location == null) {
+			return false;
+		}
+		
+		// If location is already in the graph, do not change
+		if (adjListsMap.containsKey(location)) {
+			return false;
+		}
+		
+		ArrayList<MapGraphEdge> neighbors = new ArrayList<MapGraphEdge>();
+		adjListsMap.put(location, neighbors);
+		return true;
 	}
 	
 	/**
@@ -94,8 +110,35 @@ public class MapGraph {
 	public void addEdge(GeographicPoint from, GeographicPoint to, String roadName,
 			String roadType, double length) throws IllegalArgumentException {
 
-		//TODO: Implement this method in WEEK 3
+		if (!(adjListsMap.containsKey(from) && adjListsMap.containsKey(to))) {
+			throw new IllegalArgumentException("Both GeographicPoints have not "
+					+ "already been added as nodes to the graph");
+		}
 		
+		if (from == null || to == null || roadName == null || roadType == null) {
+			throw new IllegalArgumentException("One or more argument(s) are null");
+		}
+		
+		if (length < 0) {
+			throw new IllegalArgumentException("Length is less than zero");
+		}
+		
+		MapGraphEdge newEdge = new MapGraphEdge(from, to, roadName, roadType, length);
+		adjListsMap.get(from).add(newEdge);
+		
+	}
+	
+	public String toString() {
+		String toReturn = "";
+		for (GeographicPoint node : adjListsMap.keySet()) {
+			toReturn += "Node:\n\n";
+			toReturn += node + "\n\n";
+			toReturn += "Edges:\n\n";
+			for (MapGraphEdge edge : adjListsMap.get(node)) {
+				toReturn += edge + "\n\n";
+			}
+		}
+		return toReturn;
 	}
 	
 
@@ -207,13 +250,10 @@ public class MapGraph {
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", firstMap);
 		System.out.println("DONE.");
 		
-		// You can use this method for testing.  
+		System.out.println();
+		System.out.println(firstMap);
 		
 		
-		/* Here are some test cases you should try before you attempt 
-		 * the Week 3 End of Week Quiz, EVEN IF you score 100% on the 
-		 * programming assignment.
-		 */
 		/*
 		MapGraph simpleTestMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", simpleTestMap);
