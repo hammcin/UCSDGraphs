@@ -30,6 +30,8 @@ import util.GraphLoader;
 public class MapGraph {
 	
 	private Map<GeographicPoint, ArrayList<MapGraphEdge>> adjListsMap;
+	private int numVertices;
+	private int numEdges;
 	
 	/** 
 	 * Create a new empty MapGraph 
@@ -37,6 +39,8 @@ public class MapGraph {
 	public MapGraph()
 	{
 		adjListsMap = new HashMap<GeographicPoint, ArrayList<MapGraphEdge>>();
+		numVertices = 0;
+		numEdges = 0;
 	}
 	
 	/**
@@ -45,8 +49,7 @@ public class MapGraph {
 	 */
 	public int getNumVertices()
 	{
-		//TODO: Implement this method in WEEK 3
-		return 0;
+		return numVertices;
 	}
 	
 	/**
@@ -55,8 +58,7 @@ public class MapGraph {
 	 */
 	public Set<GeographicPoint> getVertices()
 	{
-		//TODO: Implement this method in WEEK 3
-		return null;
+		return adjListsMap.keySet();
 	}
 	
 	/**
@@ -65,8 +67,7 @@ public class MapGraph {
 	 */
 	public int getNumEdges()
 	{
-		//TODO: Implement this method in WEEK 3
-		return 0;
+		return numEdges;
 	}
 
 	
@@ -92,6 +93,7 @@ public class MapGraph {
 		
 		ArrayList<MapGraphEdge> neighbors = new ArrayList<MapGraphEdge>();
 		adjListsMap.put(location, neighbors);
+		numVertices++;
 		return true;
 	}
 	
@@ -125,6 +127,7 @@ public class MapGraph {
 		
 		MapGraphEdge newEdge = new MapGraphEdge(from, to, roadName, roadType, length);
 		adjListsMap.get(from).add(newEdge);
+		numEdges++;
 		
 	}
 	
@@ -251,7 +254,16 @@ public class MapGraph {
 		System.out.println("DONE.");
 		
 		System.out.println();
-		System.out.println(firstMap);
+		// System.out.println(firstMap);
+		/*
+		System.out.println(firstMap.getNumVertices() + " vertices");
+		System.out.println(firstMap.getNumEdges() + " edges");
+		System.out.println();
+		System.out.println("Vertices: ");
+		for (GeographicPoint v : firstMap.getVertices()) {
+			System.out.println(v);
+		}
+		*/
 		
 		
 		/*
