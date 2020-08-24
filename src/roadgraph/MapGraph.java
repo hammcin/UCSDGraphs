@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.HashSet;
 
 import geography.GeographicPoint;
 import util.GraphLoader;
@@ -169,12 +172,56 @@ public class MapGraph {
 	public List<GeographicPoint> bfs(GeographicPoint start, 
 			 					     GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
-		// TODO: Implement this method in WEEK 3
+		HashMap<GeographicPoint, GeographicPoint> parentMap =
+				new HashMap<GeographicPoint, GeographicPoint>();
 		
-		// Hook for visualization.  See writeup.
-		//nodeSearched.accept(next.getLocation());
+		Boolean found = bfsSearch(start, goal, parentMap, nodeSearched);
+		
+		if (!found) {
+			return new LinkedList<GeographicPoint>();
+		}
 
-		return null;
+		return constructPath(start, goal, parentMap);
+	}
+	
+	private List<GeographicPoint> constructPath(GeographicPoint start,
+			GeographicPoint goal, HashMap<GeographicPoint, GeographicPoint> parentMap) {
+		LinkedList<GeographicPoint> foundPath = new LinkedList<GeographicPoint>();
+		GeographicPoint curr = goal;
+		while (curr != start) {
+			foundPath.addFirst(curr);
+			curr = parentMap.get(curr);
+		}
+		foundPath.addFirst(start);
+		return foundPath;
+	}
+	
+	private Boolean bfsSearch(GeographicPoint start, GeographicPoint goal,
+			HashMap<GeographicPoint, GeographicPoint> parentMap,
+			Consumer<GeographicPoint> nodeSearched) {
+		Queue<GeographicPoint> toExplore = new LinkedList<GeographicPoint>();
+		HashSet<GeographicPoint> visited = new HashSet<GeographicPoint>();
+		Boolean found = false;
+		
+		toExplore.add(start);
+		visited.add(start);
+		while(!toExplore.isEmpty()) {
+			GeographicPoint curr = toExplore.remove();
+			nodeSearched.accept(curr);
+			if (curr.equals(goal)) {
+				found = true;
+			}
+			for (MapGraphEdge edge : adjListsMap.get(curr)) {
+				GeographicPoint n = edge.getEnd();
+				if (!visited.contains(n)) {
+					visited.add(n);
+					parentMap.put(n, curr);
+					toExplore.add(n);
+				}
+			}
+		}
+		
+		return found;
 	}
 	
 
@@ -254,7 +301,9 @@ public class MapGraph {
 		System.out.println("DONE.");
 		
 		System.out.println();
+		
 		// System.out.println(firstMap);
+		
 		/*
 		System.out.println(firstMap.getNumVertices() + " vertices");
 		System.out.println(firstMap.getNumEdges() + " edges");
@@ -265,6 +314,19 @@ public class MapGraph {
 		}
 		*/
 		
+		/*
+		GeographicPoint firstTestStart = new GeographicPoint(1.0, 1.0);
+		GeographicPoint firstTestEnd = new GeographicPoint(8.0, -1.0);
+		List<GeographicPoint> firstTestRoute = firstMap.bfs(firstTestStart, firstTestEnd);
+		
+		System.out.println("Start: " + firstTestStart);
+		System.out.println("Goal: " + firstTestEnd);
+		System.out.println();
+		System.out.println("Path:");
+		for (GeographicPoint curr : firstTestRoute) {
+			System.out.println(curr);
+		}
+		*/
 		
 		/*
 		MapGraph simpleTestMap = new MapGraph();
