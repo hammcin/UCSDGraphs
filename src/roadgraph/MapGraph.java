@@ -134,6 +134,10 @@ public class MapGraph {
 		
 	}
 	
+	/**
+	 * Generate string representation of the graph
+	 * @return the String
+	 */
 	public String toString() {
 		String toReturn = "";
 		for (GeographicPoint node : adjListsMap.keySet()) {
@@ -165,7 +169,7 @@ public class MapGraph {
 	 * 
 	 * @param start The starting location
 	 * @param goal The goal location
-	 * @param nodeSearched A hook for visualization.  See assignment instructions for how to use it.
+	 * @param nodeSearched A hook for visualization.
 	 * @return The list of intersections that form the shortest (unweighted)
 	 *   path from start to goal (including both start and goal).
 	 */
@@ -184,6 +188,15 @@ public class MapGraph {
 		return constructPath(start, goal, parentMap);
 	}
 	
+	/**
+	 * Generate the path from start to goal using the parentMap
+	 * @param start The starting location
+	 * @param goal The goal location
+	 * @param parentMap A mapping from each node searched in the graph to the node from
+	 * 	which it was discovered during the search.
+	 * @return The list of intersections that form the shortest (unweighted)
+	 * 	path from start to goal (including both start and goal).
+	 */
 	private List<GeographicPoint> constructPath(GeographicPoint start,
 			GeographicPoint goal, HashMap<GeographicPoint, GeographicPoint> parentMap) {
 		LinkedList<GeographicPoint> foundPath = new LinkedList<GeographicPoint>();
@@ -196,6 +209,15 @@ public class MapGraph {
 		return foundPath;
 	}
 	
+	/**
+	 * Perform breadth-first search
+	 * @param start The starting location
+	 * @param goal The goal location
+	 * @param parentMap A mapping from each node searched in the graph to the node from
+	 * 	which it was discovered during the search.
+	 * @param nodeSearched A hook for visualization.
+	 * @return True if a path from start to goal was found, false otherwise.
+	 */
 	private Boolean bfsSearch(GeographicPoint start, GeographicPoint goal,
 			HashMap<GeographicPoint, GeographicPoint> parentMap,
 			Consumer<GeographicPoint> nodeSearched) {
@@ -210,6 +232,7 @@ public class MapGraph {
 			nodeSearched.accept(curr);
 			if (curr.equals(goal)) {
 				found = true;
+				break;
 			}
 			for (MapGraphEdge edge : adjListsMap.get(curr)) {
 				GeographicPoint n = edge.getEnd();
@@ -297,16 +320,21 @@ public class MapGraph {
 		System.out.print("Making a new map...");
 		MapGraph firstMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
-		GraphLoader.loadRoadMap("data/testdata/simpletest.map", firstMap);
+		// GraphLoader.loadRoadMap("data/testdata/simpletest.map", firstMap);
+		// GraphLoader.loadRoadMap("data/graders/mod2/map1.txt", firstMap);
+		// GraphLoader.loadRoadMap("data/graders/mod2/map2.txt", firstMap);
+		// GraphLoader.loadRoadMap("data/graders/mod2/map3.txt", firstMap);
+		GraphLoader.loadRoadMap("data/graders/mod2/ucsd.map", firstMap);
 		System.out.println("DONE.");
 		
 		System.out.println();
 		
 		// System.out.println(firstMap);
 		
-		/*
+		
 		System.out.println(firstMap.getNumVertices() + " vertices");
 		System.out.println(firstMap.getNumEdges() + " edges");
+		/*
 		System.out.println();
 		System.out.println("Vertices: ");
 		for (GeographicPoint v : firstMap.getVertices()) {
@@ -314,11 +342,21 @@ public class MapGraph {
 		}
 		*/
 		
-		/*
-		GeographicPoint firstTestStart = new GeographicPoint(1.0, 1.0);
-		GeographicPoint firstTestEnd = new GeographicPoint(8.0, -1.0);
+		
+		
+		// GeographicPoint firstTestStart = new GeographicPoint(1.0, 1.0);
+		// GeographicPoint firstTestEnd = new GeographicPoint(8.0, -1.0);
+		// GeographicPoint firstTestStart = new GeographicPoint(0.0, 0.0);
+		// GeographicPoint firstTestEnd = new GeographicPoint(6.0, 6.0);
+		// GeographicPoint firstTestStart = new GeographicPoint(6.0, 6.0);
+		// GeographicPoint firstTestEnd = new GeographicPoint(0.0, 0.0);
+		// GeographicPoint firstTestStart = new GeographicPoint(0.0, 0.0);
+		// GeographicPoint firstTestEnd = new GeographicPoint(1.0, 2.0);
+		GeographicPoint firstTestStart = new GeographicPoint(32.8756538, -117.2435715);
+		GeographicPoint firstTestEnd = new GeographicPoint(32.8742087, -117.2381344);
 		List<GeographicPoint> firstTestRoute = firstMap.bfs(firstTestStart, firstTestEnd);
 		
+		System.out.println();
 		System.out.println("Start: " + firstTestStart);
 		System.out.println("Goal: " + firstTestEnd);
 		System.out.println();
@@ -326,7 +364,7 @@ public class MapGraph {
 		for (GeographicPoint curr : firstTestRoute) {
 			System.out.println(curr);
 		}
-		*/
+		
 		
 		/*
 		MapGraph simpleTestMap = new MapGraph();
