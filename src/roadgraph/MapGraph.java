@@ -32,7 +32,7 @@ import util.GraphLoader;
  */
 public class MapGraph {
 	
-	private Map<GeographicPoint, ArrayList<MapGraphEdge>> adjListsMap;
+	private Map<GeographicPoint, MapGraphNode> adjListsMap;
 	private int numVertices;
 	private int numEdges;
 	
@@ -41,7 +41,7 @@ public class MapGraph {
 	 */
 	public MapGraph()
 	{
-		adjListsMap = new HashMap<GeographicPoint, ArrayList<MapGraphEdge>>();
+		adjListsMap = new HashMap<GeographicPoint, MapGraphNode>();
 		numVertices = 0;
 		numEdges = 0;
 	}
@@ -94,8 +94,7 @@ public class MapGraph {
 			return false;
 		}
 		
-		ArrayList<MapGraphEdge> neighbors = new ArrayList<MapGraphEdge>();
-		adjListsMap.put(location, neighbors);
+		adjListsMap.put(location, new MapGraphNode(location));
 		numVertices++;
 		return true;
 	}
@@ -128,8 +127,10 @@ public class MapGraph {
 			throw new IllegalArgumentException("Length is less than zero");
 		}
 		
-		MapGraphEdge newEdge = new MapGraphEdge(from, to, roadName, roadType, length);
-		adjListsMap.get(from).add(newEdge);
+		MapGraphEdge newEdge = new MapGraphEdge(adjListsMap.get(from),
+												adjListsMap.get(to),
+												roadName, roadType, length);
+		adjListsMap.get(from).addEdge(newEdge);
 		numEdges++;
 		
 	}
@@ -140,11 +141,11 @@ public class MapGraph {
 	 */
 	public String toString() {
 		String toReturn = "";
-		for (GeographicPoint node : adjListsMap.keySet()) {
+		for (GeographicPoint loc : adjListsMap.keySet()) {
 			toReturn += "Node:\n\n";
-			toReturn += node + "\n\n";
+			toReturn += loc + "\n\n";
 			toReturn += "Edges:\n\n";
-			for (MapGraphEdge edge : adjListsMap.get(node)) {
+			for (MapGraphEdge edge : adjListsMap.get(loc).getEdges()) {
 				toReturn += edge + "\n\n";
 			}
 		}
@@ -179,13 +180,36 @@ public class MapGraph {
 		HashMap<GeographicPoint, GeographicPoint> parentMap =
 				new HashMap<GeographicPoint, GeographicPoint>();
 		
+		// System.out.println("Size of parent map: " + parentMap.size());
+		// System.out.println();
+		
+		// System.out.println("Parent Map:");
+		// printParentMap(parentMap);
+		// System.out.println();
+		
 		Boolean found = bfsSearch(start, goal, parentMap, nodeSearched);
+		
+		// System.out.println("Size of parent map: " + parentMap.size());
+		// System.out.println();
+		
+		
+		// System.out.println("Parent map:");
+		// printParentMap(parentMap);
+		// System.out.println();
 		
 		if (!found) {
 			return new LinkedList<GeographicPoint>();
 		}
 
 		return constructPath(start, goal, parentMap);
+	}
+	
+	private void printParentMap(HashMap<GeographicPoint, GeographicPoint> parentMap) {
+		for (GeographicPoint key : parentMap.keySet()) {
+			System.out.println("Node: " + key);
+			System.out.println("Parent: " + parentMap.get(key));
+			System.out.println();
+		}
 	}
 	
 	/**
@@ -199,14 +223,67 @@ public class MapGraph {
 	 */
 	private List<GeographicPoint> constructPath(GeographicPoint start,
 			GeographicPoint goal, HashMap<GeographicPoint, GeographicPoint> parentMap) {
+		
+		// System.out.println("Construct path");
+		// System.out.println();
+		
+		// System.out.println("Start:");
+		// System.out.println(start);
+		// System.out.println();
+		
+		// System.out.println("Goal:");
+		// System.out.println(goal);
+		// System.out.println();
+		
+		// System.out.println("Size of parent map: " + parentMap.size());
+		// System.out.println();
+		
+		// System.out.println("Parent map:");
+		// printParentMap(parentMap);
+		// System.out.println();
+		
 		LinkedList<GeographicPoint> foundPath = new LinkedList<GeographicPoint>();
+		
 		GeographicPoint curr = goal;
+		
+		// Count iterations
+		// int i = 0;
+		
+		// System.out.println("Start loop");
+		// System.out.println();
+		
 		while (curr != start) {
+			
+			// i++;
+			// System.out.println("Loop iteration: " + i);
+			// System.out.println();
+			
+			// System.out.println("Curr:");
+			// System.out.println(curr);
+			// System.out.println();
+			
+			// System.out.println("Goal:");
+			// System.out.println(start);
+			// System.out.println();
+			
 			foundPath.addFirst(curr);
 			curr = parentMap.get(curr);
+			
+			// System.out.println("New curr:");
+			// System.out.println(curr);
+			// System.out.println();
+			
 		}
+		
 		foundPath.addFirst(start);
 		return foundPath;
+	}
+	
+	private void printQueue(Queue<GeographicPoint> toExplore) {
+		for (GeographicPoint n : toExplore) {
+			System.out.println(n);
+			System.out.println();
+		}
 	}
 	
 	/**
@@ -221,28 +298,100 @@ public class MapGraph {
 	private Boolean bfsSearch(GeographicPoint start, GeographicPoint goal,
 			HashMap<GeographicPoint, GeographicPoint> parentMap,
 			Consumer<GeographicPoint> nodeSearched) {
+		
 		Queue<GeographicPoint> toExplore = new LinkedList<GeographicPoint>();
 		HashSet<GeographicPoint> visited = new HashSet<GeographicPoint>();
 		Boolean found = false;
 		
+		// Count iterations
+		// int i = 0;
+		
 		toExplore.add(start);
+		
 		visited.add(start);
+		
+		// System.out.println("Start loop");
+		// System.out.println();
+		
 		while(!toExplore.isEmpty()) {
+			
+			// Outer loop
+			// i++;
+			// System.out.println("Loop iteration: " + i);
+			// System.out.println();
+			
+			// System.out.println("Queue:");
+			// printQueue(toExplore);
+			// System.out.println();
+			
 			GeographicPoint curr = toExplore.remove();
+			
+			// System.out.println("Curr:");
+			// System.out.println(curr);
+			// System.out.println();
+			// System.out.println("Queue:");
+			// printQueue(toExplore);
+			// System.out.println();
+			
 			nodeSearched.accept(curr);
+			
+			// System.out.println("Goal:");
+			// System.out.println(goal);
+			// System.out.println();
+			
+			// System.out.println("End loop?");
+			// System.out.println(curr.equals(goal));
+			// System.out.println();
+			
 			if (curr.equals(goal)) {
+				
+				// System.out.println("End of loop");
+				// System.out.println();
+				
 				found = true;
 				break;
 			}
-			for (MapGraphEdge edge : adjListsMap.get(curr)) {
-				GeographicPoint n = edge.getEnd();
-				if (!visited.contains(n)) {
-					visited.add(n);
-					parentMap.put(n, curr);
-					toExplore.add(n);
+			
+			for (MapGraphEdge edge : adjListsMap.get(curr).getEdges()) {
+				
+				// Inner loop
+				// i++;
+				// System.out.println("Inner loop iteration: " + i);
+				// System.out.println();
+				
+				MapGraphNode n = edge.getEnd();
+				
+				// System.out.println("New node:");
+				// System.out.println(n);
+				// System.out.println();
+				
+				if (!visited.contains(n.getLoc())) {
+					
+					visited.add(n.getLoc());
+					parentMap.put(n.getLoc(), curr);
+					toExplore.add(n.getLoc());
+					
+					// System.out.println("Queue:");
+					// printQueue(toExplore);
+					// System.out.println();
+					
+					// System.out.println("Size of parent map: " + parentMap.size());
+					// System.out.println();
+					
+					// System.out.println("Parent Map:");
+					// printParentMap(parentMap);
+					// System.out.println();
+					
+					// System.out.println("Retrieve from parent map:");
+					// System.out.println(parentMap.get(n.getLoc()));
+					// System.out.println();
+					
 				}
 			}
 		}
+		
+		// System.out.println("End of method");
+		// System.out.println();
 		
 		return found;
 	}
@@ -334,6 +483,7 @@ public class MapGraph {
 		
 		System.out.println(firstMap.getNumVertices() + " vertices");
 		System.out.println(firstMap.getNumEdges() + " edges");
+		
 		/*
 		System.out.println();
 		System.out.println("Vertices: ");
@@ -356,6 +506,7 @@ public class MapGraph {
 		GeographicPoint firstTestEnd = new GeographicPoint(32.8742087, -117.2381344);
 		List<GeographicPoint> firstTestRoute = firstMap.bfs(firstTestStart, firstTestEnd);
 		
+		
 		System.out.println();
 		System.out.println("Start: " + firstTestStart);
 		System.out.println("Goal: " + firstTestEnd);
@@ -364,6 +515,7 @@ public class MapGraph {
 		for (GeographicPoint curr : firstTestRoute) {
 			System.out.println(curr);
 		}
+		
 		
 		
 		/*

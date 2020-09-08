@@ -14,8 +14,8 @@ import geography.GeographicPoint;
  */
 public class MapGraphEdge {
 	
-	private GeographicPoint from;
-	private GeographicPoint to;
+	private MapGraphNode from;
+	private MapGraphNode to;
 	private String roadName;
 	private String roadType;
 	private double length;
@@ -30,7 +30,7 @@ public class MapGraphEdge {
 	 * @param roadType The type of the road
 	 * @param length The length of the road, in km
 	 */
-	public MapGraphEdge(GeographicPoint from, GeographicPoint to, String roadName,
+	public MapGraphEdge(MapGraphNode from, MapGraphNode to, String roadName,
 			String roadType, double length) {
 		this.from = from;
 		this.to = to;
@@ -43,16 +43,16 @@ public class MapGraphEdge {
 	 * Retrieve the start point of the edge
 	 * @return The starting point of the edge
 	 */
-	public GeographicPoint getStart() {
-		return from;
+	public MapGraphNode getStart() {
+		return new MapGraphNode(from.getLoc(), from.getEdges());
 	}
 	
 	/**
 	 * Retrieve the end point of the edge
 	 * @return The ending point of the edge
 	 */
-	public GeographicPoint getEnd() {
-		return to;
+	public MapGraphNode getEnd() {
+		return new MapGraphNode(to.getLoc(), to.getEdges());
 	}
 	
 	/**
