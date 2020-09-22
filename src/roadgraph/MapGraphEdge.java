@@ -44,7 +44,8 @@ public class MapGraphEdge {
 	 * @return The starting point of the edge
 	 */
 	public MapGraphNode getStart() {
-		return new MapGraphNode(from.getLoc(), from.getEdges(), from.getDist());
+		return new MapGraphNode(from.getLoc(), from.getEdges(),
+				from.getDist(), from.getPredicted());
 	}
 	
 	/**
@@ -52,7 +53,7 @@ public class MapGraphEdge {
 	 * @return The ending point of the edge
 	 */
 	public MapGraphNode getEnd() {
-		return new MapGraphNode(to.getLoc(), to.getEdges(), to.getDist());
+		return new MapGraphNode(to.getLoc(), to.getEdges(), to.getDist(), to.getPredicted());
 	}
 	
 	/**

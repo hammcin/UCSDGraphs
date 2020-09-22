@@ -19,17 +19,21 @@ public class MapGraphNode implements Comparable<MapGraphNode> {
 	GeographicPoint location;
 	private List<MapGraphEdge> edges;
 	private double distance;
+	private double predictDist;
 	
 	public MapGraphNode(GeographicPoint loc) {
 		this.location = loc;
 		edges = new ArrayList<MapGraphEdge>();
 		this.distance = Double.POSITIVE_INFINITY;
+		this.predictDist = Double.POSITIVE_INFINITY;
 	}
 	
-	public MapGraphNode(GeographicPoint loc, List<MapGraphEdge> e, double d) {
+	public MapGraphNode(GeographicPoint loc, List<MapGraphEdge> e,
+			double d, double p) {
 		this.location = loc;
 		this.edges = e;
 		this.distance = d;
+		this.predictDist = p;
 	}
 	
 	public GeographicPoint getLoc() {
@@ -42,6 +46,14 @@ public class MapGraphNode implements Comparable<MapGraphNode> {
 	
 	public void setDist(double d) {
 		this.distance = d;
+	}
+	
+	public double getPredicted() {
+		return this.predictDist;
+	}
+	
+	public void setPredicted(double p) {
+		this.predictDist = p;
 	}
 	
 	public void addEdge(MapGraphEdge edge) {
@@ -58,7 +70,7 @@ public class MapGraphNode implements Comparable<MapGraphNode> {
 			throw new NullPointerException("This object cannot be compared to null");
 		}
 		
-		return Double.compare(this.distance, other.getDist());
+		return Double.compare(this.predictDist, other.getPredicted());
 	}
 	
 	public boolean equals(Object obj) {
@@ -76,7 +88,7 @@ public class MapGraphNode implements Comparable<MapGraphNode> {
 	}
 	
 	public String toString() {
-		return "" + location + "\nDistance: " + distance;
+		return "" + location + "\nPredicted Distance: " + predictDist;
 	}
 
 }
