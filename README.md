@@ -68,6 +68,16 @@ from the map above:
 Here's a [link to a visualization](./Map_App_Visualization.mp4) which shows the
 order in which the nodes were explored during breadth-first search.
 
+## Shortest Path
+
+**Testing the Implementation**
+
+Here's a [link to a visualization](./Dijkstra_Visualization.mp4) which shows the
+order in which the nodes were explored during Dijkstra's algorithm.
+
+Here's a [link to a visualization](./A_Star_Visualization.mp4) which shows the
+order in which the nodes were explored during A* search.
+
 [image1]: Map_App.png
 [image2]: Map_App_Load_Map.png
 [image3]: Map_App_Route.png

@@ -758,40 +758,38 @@ public class MapGraph {
 		*/
 		
 		
-		
+		/*
 		MapGraph simpleTestMap = new MapGraph();
-		// GraphLoader.loadRoadMap("data/testdata/simpletest.map", simpleTestMap);
+		GraphLoader.loadRoadMap("data/testdata/simpletest.map", simpleTestMap);
 		// GraphLoader.loadRoadMap("data/graders/mod3/map1.txt", simpleTestMap);
 		// GraphLoader.loadRoadMap("data/graders/mod3/map2.txt", simpleTestMap);
 		// GraphLoader.loadRoadMap("data/graders/mod3/map3.txt", simpleTestMap);
-		GraphLoader.loadRoadMap("data/graders/mod3/ucsd.map", simpleTestMap);
+		// GraphLoader.loadRoadMap("data/graders/mod3/ucsd.map", simpleTestMap);
 		
-		// GeographicPoint testStart = new GeographicPoint(1.0, 1.0);
-		// GeographicPoint testEnd = new GeographicPoint(8.0, -1.0);
+		GeographicPoint testStart = new GeographicPoint(1.0, 1.0);
+		GeographicPoint testEnd = new GeographicPoint(8.0, -1.0);
 		// GeographicPoint testStart = new GeographicPoint(0, 0);
 		// GeographicPoint testEnd = new GeographicPoint(6, 6);
 		// GeographicPoint testStart = new GeographicPoint(7, 3);
 		// GeographicPoint testEnd = new GeographicPoint(4, -1);
 		// GeographicPoint testStart = new GeographicPoint(0, 0);
 		// GeographicPoint testEnd = new GeographicPoint(0, 4);
-		GeographicPoint testStart = new GeographicPoint(32.8709815, -117.2434254);
-		GeographicPoint testEnd = new GeographicPoint(32.8742087, -117.2381344);
+		// GeographicPoint testStart = new GeographicPoint(32.8709815, -117.2434254);
+		// GeographicPoint testEnd = new GeographicPoint(32.8742087, -117.2381344);
 		
-		// System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
-		// List<GeographicPoint> testroute = simpleTestMap.dijkstra(testStart,testEnd);
+		System.out.println("Test 1 using simpletest: Dijkstra should be 9 and AStar should be 5");
+		System.out.println();
+		System.out.println("Dijkstra");
+		List<GeographicPoint> testroute = simpleTestMap.dijkstra(testStart,testEnd);
+		System.out.println("AStar");
 		List<GeographicPoint> testroute2 = simpleTestMap.aStarSearch(testStart,testEnd);
 		
-		/*
-		System.out.println();
-		simpleTestMap.printRoute(testStart, testEnd, testroute);
-		*/
+		// System.out.println();
+		// simpleTestMap.printRoute(testStart, testEnd, testroute);
 		
+		// System.out.println();
+		// simpleTestMap.printRoute(testStart, testEnd, testroute2);
 		
-		System.out.println();
-		simpleTestMap.printRoute(testStart, testEnd, testroute2);
-		
-		
-		/*
 		MapGraph testMap = new MapGraph();
 		GraphLoader.loadRoadMap("data/maps/utc.map", testMap);
 		
@@ -799,7 +797,10 @@ public class MapGraph {
 		testStart = new GeographicPoint(32.869423, -117.220917);
 		testEnd = new GeographicPoint(32.869255, -117.216927);
 		System.out.println("Test 2 using utc: Dijkstra should be 13 and AStar should be 5");
+		System.out.println();
+		System.out.println("Dijkstra");
 		testroute = testMap.dijkstra(testStart,testEnd);
+		System.out.println("AStar");
 		testroute2 = testMap.aStarSearch(testStart,testEnd);
 		
 		
@@ -807,25 +808,30 @@ public class MapGraph {
 		testStart = new GeographicPoint(32.8674388, -117.2190213);
 		testEnd = new GeographicPoint(32.8697828, -117.2244506);
 		System.out.println("Test 3 using utc: Dijkstra should be 37 and AStar should be 10");
+		System.out.println();
+		System.out.println("Dijkstra");
 		testroute = testMap.dijkstra(testStart,testEnd);
+		System.out.println("AStar");
 		testroute2 = testMap.aStarSearch(testStart,testEnd);
 		*/
 		
 		
 		/* Use this code in Week 3 End of Week Quiz */
-		/*MapGraph theMap = new MapGraph();
+		MapGraph theMap = new MapGraph();
 		System.out.print("DONE. \nLoading the map...");
 		GraphLoader.loadRoadMap("data/maps/utc.map", theMap);
 		System.out.println("DONE.");
+		System.out.println();
 
 		GeographicPoint start = new GeographicPoint(32.8648772, -117.2254046);
 		GeographicPoint end = new GeographicPoint(32.8660691, -117.217393);
 		
-		
+		System.out.println("Dijkstra");
 		List<GeographicPoint> route = theMap.dijkstra(start,end);
+		System.out.println("AStar");
 		List<GeographicPoint> route2 = theMap.aStarSearch(start,end);
 
-		*/
+		
 		
 	}
 	
