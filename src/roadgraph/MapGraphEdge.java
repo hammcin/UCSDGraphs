@@ -80,6 +80,10 @@ public class MapGraphEdge {
 		return length;
 	}
 	
+	public void setLength(double weight) {
+		this.length = weight;
+	}
+	
 	/**
 	 * Generate string representation of the graph edge
 	 * @return the String
